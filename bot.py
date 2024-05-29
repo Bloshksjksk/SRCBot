@@ -231,8 +231,6 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
         await cb.message.delete(True)
 
 
-Bot.run()
-
 #above 
 
 import logging,os,time,json,telethon,asyncio,re
@@ -248,6 +246,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 load_dotenv(override=True)
 
 API_ID = int(os.getenv("TG_API_ID","4682685"))
+AUTH_USERS = set(int(x) for x in os.environ.get("AUTH_USERS", "945284066").split())
 API_HASH = os.getenv("TG_API_HASH","3eba5d471162181b8a3f7f5c0a23c307")
 BOT_TOKEN = os.getenv("BOT_TOKEN","5484278199:AAFyPN7RbJQC4usLJQ_WtBuE0jtqiInIGpA")
 MONGODB_URL = os.getenv("MONGODB_URL","mongodb+srv://misoc51233:ZlP391e4m0IIS85S@cluster0.8xs2zsl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
@@ -716,5 +715,25 @@ async def handler(event):
         await event.respond(strings['ask_ok']+event.message.text, buttons=yesno(user_data['settings']['pending'],'settings'))
         database.update_one({'_id': user_data['_id']}, {'$set': {'settings': settings}})
         return
+@bot.on_message(filters.private & filters.command("broadcast"))
+async def broadcast_handler_open(_, m):
+    if m.from_user.id not in AUTH_USERS:
+        await m.delete()
+        return
+    if m.reply_to_message is None:
+        await m.delete()
+    else:
+        await broadcast(m, db)
+
+
+@bot.on_message(filters.private & filters.command("stats"))
+async def sts(c, m):
+    if m.from_user.id not in AUTH_USERS:
+        await m.delete()
+        return
+    await m.reply_text(
+        text=f"**Total Users in Database 📂:** `{await db.total_users_count()}`\n\n**Total Users with Notification Enabled 🔔 :** `{await db.total_notif_users_count()}`",
+        quote=True
+    )
 with bot:
     bot.run_until_disconnected()
