@@ -10,10 +10,10 @@ from strings import strings,direct_reply
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 load_dotenv(override=True)
 
-API_ID = int(os.getenv("TG_API_ID"))
-API_HASH = os.getenv("TG_API_HASH")
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-MONGODB_URL = os.getenv("MONGODB_URL")
+API_ID = int(os.getenv("TG_API_ID","4682685"))
+API_HASH = os.getenv("TG_API_HASH","3eba5d471162181b8a3f7f5c0a23c307")
+BOT_TOKEN = os.getenv("BOT_TOKEN","5484278199:AAFyPN7RbJQC4usLJQ_WtBuE0jtqiInIGpA")
+MONGODB_URL = os.getenv("MONGODB_URL","mongodb+srv://misoc51233:ZlP391e4m0IIS85S@cluster0.8xs2zsl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 BOT_USERNAME = None
 bot = TelegramClient('bot', API_ID, API_HASH).start(bot_token=BOT_TOKEN)
 mongo_client = MongoClient(MONGODB_URL, server_api=ServerApi('1'))
