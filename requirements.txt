@@ -6,3 +6,8 @@ pillow
 aiohttp
 hachoir
 asyncio
+pyrogram
+tgcrypto
+aiofiles
+motor
+dnspython
