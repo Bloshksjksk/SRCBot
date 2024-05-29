@@ -715,7 +715,7 @@ async def handler(event):
         await event.respond(strings['ask_ok']+event.message.text, buttons=yesno(user_data['settings']['pending'],'settings'))
         database.update_one({'_id': user_data['_id']}, {'$set': {'settings': settings}})
         return
-@bot.on_message(filters.private & filters.command("broadcast"))
+@bot.on(filters.private & filters.command("broadcast"))
 async def broadcast_handler_open(_, m):
     if m.from_user.id not in AUTH_USERS:
         await m.delete()
@@ -726,7 +726,7 @@ async def broadcast_handler_open(_, m):
         await broadcast(m, db)
 
 
-@bot.on_message(filters.private & filters.command("stats"))
+@bot.on(filters.private & filters.command("stats"))
 async def sts(c, m):
     if m.from_user.id not in AUTH_USERS:
         await m.delete()
