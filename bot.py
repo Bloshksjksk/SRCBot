@@ -333,6 +333,27 @@ async def handler(event):
         await event.respond(direct_reply[event.message.text])
         raise events.StopPropagation
 
+
+
+@bot.on(events.NewMessage(pattern="/start|/login|/logout|/add_session|/settings|/dl|/activate"))
+async def check_chat(event):
+    if event.chat_id != "-1001678093514":  # Replace with the ID of the chat that users must be in
+        await event.reply("You Need To Join Below Channels to use Me 😎", buttons=[
+    Button.url("REBORN", "https://t.me/+ExBm8lEipxRkMTA1"),
+    Button.url("TRUMBOTS", "https://t.me/movie_time_botonly")
+])
+    else:
+        # Execute the command as usual
+        pass
+@bot.on(NewMessage(chats="-1001678093514", incoming=True))
+async def welcome_new_user(event):
+    if event.is_new_user:
+        user_id = event.sender_id
+        user_data = database.find_one({"chat_id": user_id})
+
+        if user_data is None:
+            await event.reply("I Checked ✅ You successfully joined my channels!\nClick /start to use me.")
+            database.insert_one({"chat_id": user_id, "welcomed": True})
 @bot.on(events.NewMessage(pattern="/broadcast",func=lambda e: e.is_private))
 async def broadcast(event):
     if event.chat_id == 945284066:  # Replace with your admin's chat ID
