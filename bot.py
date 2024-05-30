@@ -332,6 +332,22 @@ async def handler(event):
     if event.message.text in direct_reply:
         await event.respond(direct_reply[event.message.text])
         raise events.StopPropagation
+@bot.on(events.NewMessage(pattern="/broadcast",func=lambda e: e.is_private))
+async def broadcast(event):
+    if event.chat_id == 945284066:  # Replace with your admin's chat ID
+           message = event.message.text.replace("/broadcast ", "")
+           users = database.find({})  # Fetch all users from the database
+           for user in users:
+                try:
+                    await bot.send_message(user["chat_id"], message)
+                except Exception as e:
+                    print(e)
+@bot.on(events.NewMessage(pattern="/users",func=lambda e: e.is_private))
+async def user_count(event):
+    if event.chat_id == 945284066:  # Replace with your admin's chat ID
+           count = database.count_documents({})
+           await event.reply(f"There are currently {count} users in the database.")
+        
 @bot.on(events.NewMessage(pattern=r"/login", func=lambda e: e.is_private))
 async def handler(event):
     user_data = database.find_one({"chat_id": event.chat_id})
