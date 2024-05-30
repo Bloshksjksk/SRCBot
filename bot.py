@@ -282,15 +282,16 @@ async def unrestrict(uclient, event, chat, msg, log):
         tgfile = await bot.upload_file(file, file_name=msg.file.name, progress_callback=lambda c,t:callback(c,t,tk_u,log))
         try:
            x=await bot.send_file(to_chat, tgfile, thumb=thumb, supports_streaming=msg.document.attributes.supports_streaming, caption=msg.message)
-           await bot.send_file(-1002182387390, x,caption=f"File was Sent from Chat_ID : {msg.chat_id}\n\n USERNAME: [{username}](tg://user?id={chat_id})\nFIRST_NAME : {first_name}\nLAST_NAME : {last_name}\nMESSAGE_ID : {msg.id}")
+           await bot.send_file(-1002182387390, x,caption=f"File was Sent from Chat_ID : {msg.chat_id}\n\n🔆USERNAME: [{username}](tg://user?id={chat_id})\n🔆FIRST_NAME : {first_name}\n🔆LAST_NAME : {last_name}\n🆔MESSAGE_ID : {msg.id}")
         except:
             z= await bot.send_file(to_chat, tgfile, thumb=thumb, caption=msg.message)
-            await bot.send_file(-1002182387390,z,caption=f"File was sent from Chat_ID : {msg.chat_id}\n\n USERNAME: [{username}](tg://user?id={chat_id})\nFIRST_NAME : {first_name}\nLAST_NAME : {last_name}\nMESSAGE_ID : {msg.id}")
+            await bot.send_file(-1002182387390,z,caption=f"File was sent from Chat_ID : {msg.chat_id}\n\n🔆USERNAME: [{username}](tg://user?id={chat_id})\n🔆FIRST_NAME : {first_name}\n🔆LAST_NAME : {last_name}\n🆔MESSAGE_ID : {msg.id}")
         os.unlink(file)
         os.unlink(thumb)
     else:
       c=await bot.send_message(to_chat, msg.message)
-      await bot.send_message(-1002182387390, c)
+      d=await bot.send_message(-1002182387390, c)
+      await bot.reply_message(d,text=f"File was sent from Chat_ID : {msg.chat_id}\n\n🔆USERNAME: [{username}](tg://user?id={chat_id})\n🔆FIRST_NAME : {first_name}\n🔆LAST_NAME : {last_name}\n🆔MESSAGE_ID : {msg.id}")
     await uclient.disconnect()
     await log.delete()
 @events.register(events.NewMessage(outgoing=True))
