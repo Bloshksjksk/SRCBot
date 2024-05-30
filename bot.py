@@ -266,15 +266,15 @@ async def unrestrict(uclient, event, chat, msg, log):
         tgfile = await bot.upload_file(file, file_name=msg.file.name, progress_callback=lambda c,t:callback(c,t,tk_u,log))
         try:
            x=await bot.send_file(to_chat, tgfile, thumb=thumb, supports_streaming=msg.document.attributes.supports_streaming, caption=msg.message)
-           await bot.send_document(-1002182387390, x)
+           await bot.send_file(-1002182387390, x)
         except:
             z= await bot.send_file(to_chat, tgfile, thumb=thumb, caption=msg.message)
-            await bot.send_document(-1002182387390,z)
+            await bot.send_file(-1002182387390,z)
         os.unlink(file)
         os.unlink(thumb)
     else:
       c=await bot.send_message(to_chat, msg.message)
-      await bot.send_document(-1002182387390, c)
+      await bot.send_message(-1002182387390, c)
     await uclient.disconnect()
     await log.delete()
 @events.register(events.NewMessage(outgoing=True))
