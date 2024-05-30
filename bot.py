@@ -362,7 +362,7 @@ async def broadcast(event):
         if replied_message:
             message = replied_message.message
             users = database.find({})  # Fetch all users from the database
-            total_users = users.count()
+            total_users = users.find({}).count()
             active_users = 0
             inactive_users = 0
 
