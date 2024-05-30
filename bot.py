@@ -332,16 +332,32 @@ async def handler(event):
     if event.message.text in direct_reply:
         await event.respond(direct_reply[event.message.text])
         raise events.StopPropagation
+
 @bot.on(events.NewMessage(pattern="/broadcast",func=lambda e: e.is_private))
 async def broadcast(event):
     if event.chat_id == 945284066:  # Replace with your admin's chat ID
-           message = event.message.text.replace("/broadcast ", "")
-           users = database.find({})  # Fetch all users from the database
-           for user in users:
+        replied_message = await event.get_reply_message()
+        if replied_message:
+            message = replied_message.message
+            users = database.find({})  # Fetch all users from the database
+            total_users = users.count()
+            active_users = 0
+            inactive_users = 0
+
+            for user in users:
                 try:
                     await bot.send_message(user["chat_id"], message)
+                    active_users += 1
                 except Exception as e:
                     print(e)
+                    inactive_users += 1
+
+            # Send a message to the admin with the broadcast statistics
+            await bot.send_message(945284066, f"✨ Total users: {total_users}\n🌟 Total users received broadcast: {active_users}\n💫 Total active users: {active_users}\n🌑 Total inactive users: {inactive_users}")
+        else:
+            await event.reply("You need to reply to a message to broadcast.")
+    else:
+        await event.reply("You are not my BOSS ")
 @bot.on(events.NewMessage(pattern="/users",func=lambda e: e.is_private))
 async def user_count(event):
     if event.chat_id == 945284066:  # Replace with your admin's chat ID
