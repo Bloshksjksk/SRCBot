@@ -256,7 +256,7 @@ async def unrestrict(uclient, event, chat, msg, log):
         first_name = user_data['first_name']
         last_name = user_data['last_name']
         username = user_data['username']
-        chat_id=user_data['id']
+        chat_id=user_data['chat_id']
         
     to_chat = await event.get_sender()
     if msg is None:
