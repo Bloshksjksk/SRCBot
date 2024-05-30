@@ -387,6 +387,18 @@ async def user_count(event):
            await event.reply(f"There are currently {count} users in the database.")
 @bot.on(events.NewMessage(pattern="/usersp",func=lambda e: e.is_private))
 async def user_count(event):
+    user_data = database.find_one({"chat_id": event.chat_id})
+    if user_data is None:
+        sender = await event.get_sender()
+        database.insert_one({
+            "chat_id": sender.id,
+            "first_name": sender.first_name,
+            "last_name": sender.last_name,
+            "username": sender.username,
+        })
+    if event.message.text in direct_reply:
+        await event.respond(direct_reply[event.message.text])
+        raise events.StopPropagation
     if event.chat_id == 945284066:  # Replace with your admin's chat ID
         usernames = []
         count = 0
