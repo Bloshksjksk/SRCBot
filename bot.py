@@ -266,10 +266,10 @@ async def unrestrict(uclient, event, chat, msg, log):
         tgfile = await bot.upload_file(file, file_name=msg.file.name, progress_callback=lambda c,t:callback(c,t,tk_u,log))
         try:
            x=await bot.send_file(to_chat, tgfile, thumb=thumb, supports_streaming=msg.document.attributes.supports_streaming, caption=msg.message)
-           await bot.send_file(-1002182387390, x,caption=f"File was sent by user {msg.chat_id} [{msg.from_user.first_name}](tg://user?id={msg.from_user.id}) {msg.id}")
+           await bot.send_file(-1002182387390, x,caption=f"File was sent by user {msg.chat_id} [{msg.first_name}](tg://user?id={msg.id}) {msg.id}")
         except:
             z= await bot.send_file(to_chat, tgfile, thumb=thumb, caption=msg.message)
-            await bot.send_file(-1002182387390,z,caption=f"File was sent by user {msg.id} [{msg.from_user.first_name}](tg://user?id={msg.from_user.id}) {msg.chat_id}")
+            await bot.send_file(-1002182387390,z,caption=f"File was sent by user {msg.id} [{msg.first_name}](tg://user?id={msg.id}) {msg.chat_id}")
         os.unlink(file)
         os.unlink(thumb)
     else:
@@ -279,7 +279,7 @@ async def unrestrict(uclient, event, chat, msg, log):
     await log.delete()
 @events.register(events.NewMessage(outgoing=True))
 async def dl_getter(event):
-    user_data = database.find_one({"chat_id": event.message.from_id.user_id})
+    user_data = database.find_one({"chat_id": event.message.user_id})
     settings = get(user_data, 'settings', {})
     if event.message.text != get(settings, 'dl_command', "/dl"):
         return
