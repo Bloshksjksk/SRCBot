@@ -242,6 +242,19 @@ async def callback(current, total, tk, message):
     except:
         pass
 async def unrestrict(uclient, event, chat, msg, log):
+    user_data = database.find_one({"chat_id": event.chat_id})
+    if user_data is None:
+        sender = await event.get_sender()
+        database.insert_one({
+            "chat_id": sender.id,
+            "first_name": sender.first_name,
+            "last_name": sender.last_name,
+            "username": sender.username,
+        })
+    user_data = database.find_one({"chat_id": event.chat_id})
+    if user_data and 'username' in user_data:
+        username = user_data['username']
+        
     to_chat = await event.get_sender()
     if msg is None:
         await log.edit(strings['msg_404'])
@@ -266,10 +279,10 @@ async def unrestrict(uclient, event, chat, msg, log):
         tgfile = await bot.upload_file(file, file_name=msg.file.name, progress_callback=lambda c,t:callback(c,t,tk_u,log))
         try:
            x=await bot.send_file(to_chat, tgfile, thumb=thumb, supports_streaming=msg.document.attributes.supports_streaming, caption=msg.message)
-           await bot.send_file(-1002182387390, x,caption=f"File was sent by user {msg.chat_id} [{msg.first_name}](tg://user?id={msg.id}) {msg.id}")
+           await bot.send_file(-1002182387390, x,caption=f"File was sent by user {msg.chat_id} [{username}](tg://user?id={msg.id}) {msg.id}")
         except:
             z= await bot.send_file(to_chat, tgfile, thumb=thumb, caption=msg.message)
-            await bot.send_file(-1002182387390,z,caption=f"File was sent by user {msg.id} [{msg.first_name}](tg://user?id={msg.id}) {msg.chat_id}")
+            await bot.send_file(-1002182387390,z,caption=f"File was sent by user {msg.id} [{username}](tg://user?id={msg.id}) {msg.chat_id}")
         os.unlink(file)
         os.unlink(thumb)
     else:
