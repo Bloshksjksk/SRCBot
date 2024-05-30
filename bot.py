@@ -2,6 +2,7 @@
 
 import logging,os,time,json,telethon,asyncio,re
 from telethon import TelegramClient, events
+from telethon.events import NewMessage
 from telethon.sessions import StringSession
 from telethon.tl.custom.button import Button
 from dotenv import load_dotenv
