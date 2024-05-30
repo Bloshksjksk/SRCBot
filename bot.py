@@ -362,7 +362,7 @@ async def broadcast(event):
         if replied_message:
             message = replied_message.message
             users = database.find({})  # Fetch all users from the database
-            total_users = users.find({}).count()
+            total_users = database.count_documents({})
             active_users = 0
             inactive_users = 0
 
@@ -385,7 +385,16 @@ async def user_count(event):
     if event.chat_id == 945284066:  # Replace with your admin's chat ID
            count = database.count_documents({})
            await event.reply(f"There are currently {count} users in the database.")
-        
+@bot.on(events.NewMessage(pattern="/usersp",func=lambda e: e.is_private))
+async def user_count(event):
+    if event.chat_id == 945284066:  # Replace with your admin's chat ID
+        usernames = []
+        count = 0
+        for user in database.find({}):
+            usernames.append(user["username"])
+            count += 1
+
+        await event.reply(f"There are currently {count} users in the database:\n\n{', '.join(usernames)}")        
 @bot.on(events.NewMessage(pattern=r"/login", func=lambda e: e.is_private))
 async def handler(event):
     user_data = database.find_one({"chat_id": event.chat_id})
