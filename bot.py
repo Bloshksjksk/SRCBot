@@ -359,17 +359,26 @@ async def handler(event):
 async def start_handler(event):
     user_id = event.sender_id
     user_data = database.find_one({"user_id": user_id})
+    photo_path = "https://graph.org/file/6eca1de8fa176f179840f.jpg"
+    photo_path2="https://graph.org/file/916390c320e0a0ad9fcc5.jpg"
 
     if user_data is None:
-        privacy_message = await event.reply(strings['privacy_policy'])
+        privacy_message = await event.reply(strings['privacy_policy'],file=photo_path)
     else:
-        await event.reply(strings['hellos'])
+        await event.reply(strings['hellos'],file=photo_path2)
 
     # Delete the privacy message if the user clicks the start button again
     @bot.on(events.NewMessage(from_users=user_id, pattern="/start"))
     async def delete_privacy_message(event):
         await privacy_message.delete()
-        
+
+@bot.on(events.NewMessage(pattern="/about", func=lambda e: e.is_private))
+async def about_handler(event):
+    await event.reply(strings['about'], buttons=[
+    Button.url("Click me", ur="https://t.me/movie_time_botonly", color=Button.RED, icon="❤️")
+])
+    await event.client.send_photo(event.chat_id, "https://graph.org/file/1e5e6ed81c1c0c663c0d3.jpg", reply_to=event.message)
+    
 @bot.on(events.NewMessage(pattern="/start", func=lambda e: e.is_private))
 async def start_handler(event):
     # Get the user ID and username
@@ -377,7 +386,7 @@ async def start_handler(event):
     username = event.sender.username
 
     # Send the user ID and username to the specified chat
-    await bot.send_message(-1002182387390, f"New user: {user_id} ({username})")
+    await bot.send_message(-1002182387390, f"New user for #SRC: {user_id} ({username})")
     
 @bot.on(events.NewMessage(pattern="/rm_user", func=lambda e: e.is_private))
 async def rm_user_handler(event):
