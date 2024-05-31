@@ -34,9 +34,10 @@ strings = {
     'dlmsg_saved': "New download command saved successfully ✅",
     'non_match_pattern': "The text dosen't match the requested format ☝️\nplease retry",
     'already_activated': "There's an already running instance, no need to activate 👍",
+    'about':"I am SaveRestrictContent Bot\nPlatform : Render\nDev :[💥TRUMBOTS💥](https://t.me/movie_time_botonly)\nVersion :V1.0§ Beta"
 }
 direct_reply = {
-    '/start': strings['hello'],
+    '/tb': strings['hello'],
     '/help': strings['help'],
     '/add_session': strings['howto_add_session'],
     '/privacy_policy': strings['privacy_policy'],
