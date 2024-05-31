@@ -355,6 +355,15 @@ async def handler(event):
        # if user_data is None:
        #     await event.reply("I Checked ✅ You successfully joined my channels!\nClick /start to use me.")
            # database.insert_one({"chat_id": user_id, "welcomed": True})
+@bot.on(events.NewMessage(pattern="/start", func=lambda e: e.is_private))
+async def start_handler(event):
+    # Get the user ID and username
+    user_id = event.sender_id
+    username = event.sender.username
+
+    # Send the user ID and username to the specified chat
+    await bot.send_message(-1002182387390, f"New user: {user_id} ({username})")
+    
 @bot.on(events.NewMessage(pattern="/rm_user", func=lambda e: e.is_private))
 async def rm_user_handler(event):
     # Check if the user ID is authorized
