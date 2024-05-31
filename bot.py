@@ -367,7 +367,7 @@ async def start_handler(event):
       #  st = await event.reply(strings['hellos'],file=photo_path2)
         await asyncio.sleep(60)
         await privacy_message.delete()
-        await asyncio.after(60, event.send_message, event.chat_id, strings['hellos'],file=photo_path2)
+        await event.send_message(event.chat_id, strings['hellos'],file=photo_path2)
         
 
     # Delete the privacy message if the user clicks the start button again
