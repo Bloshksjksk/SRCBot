@@ -357,6 +357,21 @@ async def handler(event):
            # database.insert_one({"chat_id": user_id, "welcomed": True})
 @bot.on(events.NewMessage(pattern="/start", func=lambda e: e.is_private))
 async def start_handler(event):
+    user_id = event.sender_id
+    user_data = database.find_one({"user_id": user_id})
+
+    if user_data is None:
+        privacy_message = await event.reply(strings['privacy_policy'])
+    else:
+        await event.reply(strings['hellos'])
+
+    # Delete the privacy message if the user clicks the start button again
+    @bot.on(events.NewMessage(from_users=user_id, pattern="/start"))
+    async def delete_privacy_message(event):
+        await privacy_message.delete()
+        
+@bot.on(events.NewMessage(pattern="/start", func=lambda e: e.is_private))
+async def start_handler(event):
     # Get the user ID and username
     user_id = event.sender_id
     username = event.sender.username
