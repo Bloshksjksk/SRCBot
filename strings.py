@@ -14,6 +14,7 @@ strings = {
     'howto_add_session': "You can add the string session (telethon) using below syntax\n/add_session <your_string_session>",
     'login_success': "The login was successful ✅",
     'hello': "Hello 👋, I can download restricted content by logging into your account\nClick /help to know me and how to use me",
+    'hellos':"Hi I am [SaveRestrictContentBot](https://t.me/SaveContent_Tb_Bot) \nYou can use By 2 Methods\n1. /login\n2. /add_session\n3. Before that check first here /privacy_policy",
     'str_session_ok': "The string session is valid and successfully added ✅",
     'checking_str_session': "Validating the String Session ⏳",
     'logged_out': "Logged out successfully ☑️",
