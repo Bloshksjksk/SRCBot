@@ -363,7 +363,7 @@ async def start_handler(event):
     photo_path2="https://graph.org/file/916390c320e0a0ad9fcc5.jpg"
 
     if user_data is None:
-        await event.send_message(event.chat_id, strings['hellos'],file=photo_path2)
+        await event.reply(strings['hellos'],file=photo_path2)
         privacy_message = await event.reply(strings['privacy_policy'],file=photo_path)
       #  st = await event.reply(strings['hellos'],file=photo_path2)
         await asyncio.sleep(60)
