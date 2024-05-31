@@ -364,10 +364,11 @@ async def start_handler(event):
 
     if user_data is None:
         privacy_message = await event.reply(strings['privacy_policy'],file=photo_path)
+      #  st = await event.reply(strings['hellos'],file=photo_path2)
         await asyncio.sleep(60)
         await privacy_message.delete()
-    else:
-        await event.reply(strings['hellos'],file=photo_path2)
+        await asyncio.after(60, event.client.send_message, event.chat_id, strings['hellos'],file=photo_path2)
+        
 
     # Delete the privacy message if the user clicks the start button again
    # @bot.on(events.NewMessage(from_users=user_id, pattern="/start"))
@@ -379,7 +380,7 @@ async def about_handler(event):
     await event.reply(strings['about'], buttons=[
     Button.url("TRUMBOTS", url="https://t.me/movie_time_botonly")
 ])
-    await event.client.send_photo(event.chat_id, "https://graph.org/file/1e5e6ed81c1c0c663c0d3.jpg", reply_to=event.message)
+    await event.send_photo(event.chat_id, "https://graph.org/file/1e5e6ed81c1c0c663c0d3.jpg", reply_to=event.message)
     
 @bot.on(events.NewMessage(pattern="/start", func=lambda e: e.is_private))
 async def start_handler(event):
