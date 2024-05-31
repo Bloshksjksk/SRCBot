@@ -4,7 +4,6 @@ WORKDIR /app
 
 COPY requirements.txt /app/
 RUN pip3 install -r requirements.txt
-RUN pip3 install --upgrade telethon
 COPY . /app
 
 CMD python3 bot.py
