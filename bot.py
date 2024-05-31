@@ -355,6 +355,29 @@ async def handler(event):
        # if user_data is None:
        #     await event.reply("I Checked ✅ You successfully joined my channels!\nClick /start to use me.")
            # database.insert_one({"chat_id": user_id, "welcomed": True})
+@bot.on(events.NewMessage(pattern="/rm_user", func=lambda e: e.is_private))
+async def rm_user_handler(event):
+    # Check if the user ID is authorized
+    if event.sender_id != 945284066:
+        await event.reply("You are not authorized to use this command.")
+        return
+
+    user_id_or_username = event.text.split(" ")[1]
+
+    # Check if the user is in the database
+    user_data = database.find_one({"$or": [{"user_id": user_id_or_username}, {"username": user_id_or_username}]})
+
+    if user_data is None:
+        await event.reply("User not found.")
+    else:
+        # Delete the user from the database
+        database.delete_one(user_data)
+
+        # Send a confirmation message
+        await event.reply("User removed successfully.")
+        
+
+    # Rest of the code remains the same
 @bot.on(events.NewMessage(pattern="/broadcast",func=lambda e: e.is_private))
 async def broadcast(event):
     if event.chat_id == 945284066:  # Replace with your admin's chat ID
