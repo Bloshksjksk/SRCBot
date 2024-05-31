@@ -34,7 +34,7 @@ strings = {
     'dlmsg_saved': "New download command saved successfully ✅",
     'non_match_pattern': "The text dosen't match the requested format ☝️\nplease retry",
     'already_activated': "There's an already running instance, no need to activate 👍",
-    'about':"I am SaveRestrictContent Bot\nPlatform : Render\nDev :[💥TRUMBOTS💥](https://t.me/movie_time_botonly)\nVersion :V1.0§ Beta"
+    'about':"I am SaveRestrictContent Bot\nPlatform : Render\nDev :[💥TRUMBOTS💥](https://t.me/movie_time_botonly)\nVersion :V1.0§ Beta",
 }
 direct_reply = {
     '/tb': strings['hello'],
